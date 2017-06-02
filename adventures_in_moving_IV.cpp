@@ -10,12 +10,20 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
+#include <fstream>
 
 int main() {
-	int dis;
-	std::cin >> dis;
-	for (std::string line; std::getline(std::cin, line);) {
-		
-	}
+	std::string s("Some'where down the road");
+    std::istringstream iss(s);
+    std::string out_str;
+    char delim = ' ';
+    std::getline(iss, out_str, delim);
+    std::cout << out_str << std::endl; // outputs Some'where
+    
+    std::istringstream iss2(out_str);
+    delim = '\'';
+    std::getline(iss2, out_str, delim);
+    std::cout << out_str << std::endl; // outputs Some
+
 	return 0;
 }
