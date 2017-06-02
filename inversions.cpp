@@ -6,6 +6,9 @@
 //  Copyright © 2017 Prajjwal Dangal. All rights reserved.
 //
 
+// Problem: 0-1 sequences
+// Website: Kattis
+
 #include <string.h>
 #include <iostream>
 #include <vector>
@@ -19,7 +22,6 @@
 // 1100 -> 0011, 4
 // 1101 -> 0111, 2
 
-// no. of inv =  11
 
 // ((node *) arr)[i]
 

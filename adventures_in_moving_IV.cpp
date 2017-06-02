@@ -5,7 +5,7 @@
 */
 
 // Problem: adventures_in_moving_IV 
-// websit: kattis
+// Website: kattis
 
 #include <iostream>
 #include <iterator>
