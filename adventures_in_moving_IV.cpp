@@ -12,18 +12,16 @@
 #include <sstream>
 #include <fstream>
 
-int main() {
-	std::string s("Some'where down the road");
-    std::istringstream iss(s);
-    std::string out_str;
-    char delim = ' ';
-    std::getline(iss, out_str, delim);
-    std::cout << out_str << std::endl; // outputs Some'where
-    
-    std::istringstream iss2(out_str);
-    delim = '\'';
-    std::getline(iss2, out_str, delim);
-    std::cout << out_str << std::endl; // outputs Some
 
+using namespace std;
+
+int main() {
+	string dis;
+	cin >> dis;
+	stringstream jj2(dis);
+	int num;
+	jj2 >> num;
+	cout << dis << endl;
+	cout << num << endl;
 	return 0;
 }
