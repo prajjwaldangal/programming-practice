@@ -12,6 +12,7 @@
 #include <sstream>
 #include <fstream>
 
+// https://stackoverflow.com/questions/236129/split-a-string-in-c
 
 using namespace std;
 
@@ -21,7 +22,18 @@ int main() {
 	stringstream jj2(dis);
 	int num;
 	jj2 >> num;
-	cout << dis << endl;
-	cout << num << endl;
+
+	int c;
+	char line[2];
+	// while (c <= 100) {
+	// 	if(agetline(cin, line)) {
+	// 		cout << line;
+	// 	}
+	// }
+	while (getchar() != '\n') {
+		gets(line);
+		cout<<line<<endl;
+	}
+	
 	return 0;
 }
