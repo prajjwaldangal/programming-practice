@@ -42,15 +42,20 @@ def dijsktra(graph, initial):
     visited = {initial: 0}
     path = {}
     nodes = set(graph.nodes)
-    while nodes: # why not have just visited
+    # why not have just visited instead of nodes -> because you wanna be able
+    #     to remove the current min node and move the algo forward to
+    #     contain other nodes
+    # we cannot do this on visited as visited is the actual record
+    # of the traversing, contains distances to each node
+    while nodes: 
         min_node = None
         col = None
         for node in nodes:
             if node in visited:
                 if min_node is None or visited[node] < visited[min_node]:
                     min_node = node
-                    col = graph.cols[min_node]
-        if min_node is None:
+                    col = graph.cols[min_node] 
+        if min_node is None: 
             break
         nodes.remove(min_node)
         current_weight = visited[min_node]
