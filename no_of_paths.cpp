@@ -49,7 +49,13 @@ int main() {
 }
 
 int numberOfPaths(vector < vector < int > > a) {
-	int n = a.
+	int n = a.size();
+    int m;
+    try {
+        m = a[0].size();
+    } except {
+        
+    }
 }
 
 
