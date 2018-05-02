@@ -19,6 +19,13 @@ max_len = 0
 response = requests.get(word_site)
 WORDS = response.content.splitlines()
 WORDS2 = [word.decode('utf-8').lower() for word in WORDS]
+
+f = open('file.txt', 'w')
+for word in WORDS2:
+	w = str(word)
+	f.write(w+" ")
+f.close()
+
 l = len(WORDS2)
 for word in WORDS2:
     if len(word) > max_len:
@@ -66,14 +73,14 @@ def predict(word):
     l1 = nonlin(np.dot(l0, syn0)) # 1 x max_len . max_len x msm   ,  msg = max_len * sig
     l2 = nonlin(np.dot(l1, syn1)) # 1 x msm . msm x msd   ,   msd = max_len / sig
     l3 = nonlin(np.dot(l2, syn2)) # 1 x msd . msd x msm
-    l4 = nonlin(np.dot(l3, synn)) # 1 x msm . max_len
+    l4 = nonlin(np.dot(l3, synn)) # 1 x msm . msm x max_len
     # st = ""
     # for i in range(0, len(l2)):
     # 	if l2[i] < int(l2[i]) + 0.5:
     # 		st += chr(int(l2[i]))
     # 	else:
     # 		st += chr(int(l2[i]) + 1)
-    return l4
+    return l2
 
 def ret_word(arr):
     st = ""
