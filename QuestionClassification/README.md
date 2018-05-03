@@ -8,7 +8,7 @@ Question 1 could belong to definition or disease medicine;
 Question 2 could belong to food, plant or animal; 
 And Question 3 could be a numeric value or a definition. 
 
-Question classification algorithm classifies whether a given question pertains to abbrevation, 
+Question classification algorithm classifies whether a given question pertains to the class, abbrevation, 
 entity, plant, sport, substance, definition, date etc.
 
 Overall there are 6 coarse classes and 50 fine classes:
@@ -27,7 +27,7 @@ In the original paper referenced below, the classification took place in two sta
 classifiy into coarse class then into fine class. My approach classifies it directly into
 fine classes thanks to the use of Recurrent Neural Network (RNN).
 
-Also, thanks to Denny Britz and WILDML.
+Also, thanks to Denny Britz and WILDML as well as Roozbeh Shirvani and Ram Hari Dahal.
 
 Referece:
 
