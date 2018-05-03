@@ -23,9 +23,11 @@ HUMAN -> {group, individual, title, ..}
 LOCATION -> {city, country, mountain, ..}
 NUMERIC -> {code, count, distance, order, percent, ...}
 
-In the original paper reference below, the classification took place in two stages, viz. 
-classifiy into coarse class then into fine class, my approach classifies it directly into
+In the original paper referenced below, the classification took place in two stages, viz. 
+classifiy into coarse class then into fine class. My approach classifies it directly into
 fine classes thanks to the use of Recurrent Neural Network (RNN).
+
+Also, thanks to Denny Britz and WILDML.
 
 Referece:
 
