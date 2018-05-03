@@ -14,15 +14,18 @@ entity, plant, sport, substance, definition, date etc.
 Overall there are 6 coarse classes and 50 fine classes:
 
 Coarse classes:			ABBREVATION, ENTITY,  DESCRIPTION, HUMAN, LOCATION, NUMERIC
-Fine classes for each:	abbrevation, animal    
-									 body
-									 color
-									 event
-									 religion
-									 technique
-									 term ...
 
+Fine classes within coarse classes:
+ABBREVATION -> {abbrevation, ..}
+ENTITY -> {animal, body, color, plant, product, religion, substance, technique, term, ..}
+DESCRIPTION -> {definition, description, manner, reason}
+HUMAN -> {group, individual, title, ..}
+LOCATION -> {city, country, mountain, ..}
+NUMERIC -> {code, count, distance, order, percent, ...}
 
+In the original paper reference below, the classification took place in two stages, viz. 
+classifiy into coarse class then into fine class, my approach classifies it directly into
+fine classes thanks to the use of Recurrent Neural Network (RNN).
 
 Referece:
 
