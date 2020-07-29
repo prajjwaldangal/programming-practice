@@ -11,6 +11,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define cond1 TRUE
+
+#ifdef cond1
+  #define IF_DEF_TAKES_ONE_CONDITION_IF_DEFINED_TAKES_ONE_OR_MORE TRUE
+#endif
+
 int *foo(int a, float b);
 int baz(int, float);
 int boz(int, float);

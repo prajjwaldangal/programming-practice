@@ -2,7 +2,9 @@
 
 * MATLAB folder contains code from Andrew Ng's machine learning course. I'll try to include results from those experiments soon. Since those were standard lab assignments the accuracy, precision and recall were easily top of the line (don't remember exactly). Point is I completed the assignments that I attempted.
 
-* frad_detection.py is implemented using tensorflow. It's a project I simply cloned from kaggle but have gone through the top half data analysis part. 
+* advanced.c contains code on C preprocessors and function pointers.
+
+* frad_detection.py is implemented using tensorflow. It's a project I simply cloned from kaggle but have gone through the top half data analysis part.
 
 
 Contact: prajjwal.dangal@gmail.com
