@@ -33,7 +33,7 @@ sentence_end_token = "SENTENCE_END"
 hidden_dim = _HIDDEN_DIM
 learning_rate = _LEARNING_RATE
 nepoch = _NEPOCH
-print "Reading the input file"
+print ("Reading the input file")
 inputfile = open("all_data.label",'r')
 
 inputfile_1 = open("list",'r')
@@ -44,6 +44,7 @@ for item in input_1:
 
 
 label_dic = {}
+baseline = {}
 input_ = inputfile.readlines()
 i = 0
 y = []
@@ -54,6 +55,14 @@ for item in input_:
     # For extracting the label of each sentence
     tag_ = re.findall(r'\w+:',item)
     tag = tag_[0].split(':')[0]
+    
+    # calculate the class with the highest number of correct prediction
+    # baseline = {'ENT': 55, 'DESC': 20, 'NUMERIC': 19 ....}
+    if baseline.get(tag, False):
+        baseline[tag] = 1
+    else:
+        baseline[tag] += 1
+
     if tag not in label_dic:
         # If the label is not in my dictionary I will add it to the dictionary
         # label_dic changes labels into numerical values 
@@ -79,7 +88,7 @@ for ii, vall in enumerate(tokenized_sentences):
 
 # Count the word frequencies
 word_freq = nltk.FreqDist(itertools.chain(*tokenized_sentences))
-print "Found %d unique words tokens." % len(word_freq.items())
+print ("Found %d unique words tokens." % len(word_freq.items()))
 
 # Get the most common words and build index_to_word and word_to_index vectors
 vocab = word_freq.most_common(vocabulary_size-1)
@@ -87,8 +96,8 @@ index_to_word = [x[0] for x in vocab]
 index_to_word.append(unknown_token)
 word_to_index = dict([(w,i) for i,w in enumerate(index_to_word)])
 
-print "Using vocabulary size %d." % vocabulary_size
-print "The least frequent word in our vocabulary is '%s' and appeared %d times." % (vocab[-1][0], vocab[-1][1])
+print ("Using vocabulary size %d." % vocabulary_size)
+print ("The least frequent word in our vocabulary is '%s' and appeared %d times." % (vocab[-1][0], vocab[-1][1]))
 
 # Replace all words not in our vocabulary with the unknown token
 for i, sent in enumerate(tokenized_sentences):
@@ -101,6 +110,7 @@ y_train = y[0:5000]
 
 X_test = X[5000:]
 y_test = y[5000:]
+
 
 class RNNNumpy:
      
@@ -220,17 +230,17 @@ def train_with_sgd(model, X_train, y_train, learning_rate, nepoch, evaluate_loss
     # We keep track of the losses so we can plot them later
     losses = []
     num_examples_seen = 0
-    print "There is going to be ", nepoch, " epoches"
+    print ("There is going to be ", nepoch, " epoches")
     for epoch in range(nepoch):
         if (epoch % evaluate_loss_after == 0):
             loss = model.calculate_loss(X_train, y_train)
             losses.append((num_examples_seen, loss))
             time = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-            print "%s: Loss after num_examples_seen=%d epoch=%d: %f" % (time, num_examples_seen, epoch, loss)
+            print ("%s: Loss after num_examples_seen=%d epoch=%d: %f" % (time, num_examples_seen, epoch, loss))
             # Adjust the learning rate if loss increases
             if (len(losses) > 1 and losses[-1][1] > losses[-2][1]):
                 learning_rate = learning_rate * 0.5  
-                print "Setting learning rate to %f" % learning_rate
+                print ("Setting learning rate to %f" % learning_rate)
             sys.stdout.flush()
         # For each training example...
         
@@ -262,8 +272,8 @@ def predict_label(model, X_test,y_test):
 
 filename11 = 'numpy_model.sav'
 model = pickle.load(open(filename11, 'rb'))
-print "accuracy = %f" % predict_label(model, X_test,y_test), "Test Data"
-print "accuracy = %f" % predict_label(model, X_train,y_train), "Train Data"
+print ("accuracy = %f" % predict_label(model, X_test,y_test), "Test Data")
+print ("accuracy = %f" % predict_label(model, X_train,y_train), "Train Data")
 # tokenized_sentences
 
-print 'nepoch = ',nepoch ,'vocabulary_size = ' ,vocabulary_size ,'hidden_dim = ' ,hidden_dim ,'learning_rate = ',learning_rate
+print ('nepoch = ',nepoch ,'vocabulary_size = ' ,vocabulary_size ,'hidden_dim = ' ,hidden_dim ,'learning_rate = ',learning_rate)
