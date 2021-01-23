@@ -4,7 +4,8 @@
 #include <stdlib.h>
 
 list * create_list() {
-	return (list *) malloc(sizeof(list));	
+	return (list *) malloc(sizeof(list));
+
 }
 
 node * makeNewNode(char * item) {
@@ -13,39 +14,25 @@ node * makeNewNode(char * item) {
 	return newNode;	
 }
 
-list * makeNewList() {
-	list * newList = (list *) malloc(sizeof(list));
-	return newList;
-}
-
 int add_to_list(list * ll, char * item) {
-	node * newNode = NULL;
-	if (!ll) {
-		list * newList = makeNewList();
-		if (!newList)
+	node * newNode;
+	if (!ll->head) {
+		newNode = makeNewNode(item);
+		if (!newNode)
 			return -1;
-		ll = newList;
-		if (item) {
-			newNode = makeNewNode(item);
-			if (!newNode)
-				return -1;
-			else
-				ll->head = newNode;				
+		ll->head = newNode;
+	} else {
+		node * temp = ll->head;
+		while (temp->next) {
+
+			temp = temp->next;
 		}
-		return 0;
+		newNode = makeNewNode(item);
+		if (!newNode)
+			return -1;
+		temp->next = newNode;
 	}
-	/*
-	node * tmp = ll->head; // char * item = {'a','b', 'c'}
-	while (tmp->next) {
-		
-		tmp = tmp->next;
-	}
-	for (int i = 0; i < (int) itemLen; i++) {
-		
-		tmp->next = makeNewNode(item[i]);
-		tmp = tmp->next;
-	}
-	*/
+	return 0;
 }
 
 void print_list(list * ll) {
@@ -59,7 +46,7 @@ void print_list(list * ll) {
 }
 
 int main() {
-	list * ll  = NULL;
+	list * ll = create_list();
 	char c = 'a';
 	add_to_list(ll, &c);
 	print_list(ll); 	
