@@ -70,7 +70,25 @@ passed pointer ll should still point to a* valid, empty list when this
 function returns. Any memory* allocated to store items in the list 
 should be freed. * Returns the number of items flushed from the list. */
 int flush_list(list* ll) {
-	
+	if (!ll || !ll->head) 
+		return 0;
+	node * tmp;
+	node * mover = ll->head;
+	int count = 0;
+	while (mover) {
+		tmp = mover->next;
+		free(mover);
+		mover = tmp;
+		count += 1;	
+	}
+	free(tmp);
+}
+
+/* De-allocates all data for the list. Ensure all memory* allocated for this 
+list is freed, including any* allocated strings and the list itself. */
+void free_list(list *ll) {
+	flush_list(ll);
+	free(ll);
 }
 
 int main() {
@@ -88,5 +106,8 @@ int main() {
 	char * front = remove_from_list(ll);
 	print_list(ll); 
 	remove_from_list(ll);	
+	print_list(ll);
+	// flush_list(ll);
+	free_list(ll);
 	print_list(ll);
 }
