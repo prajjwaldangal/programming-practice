@@ -1,6 +1,6 @@
 struct node {
 	char c;
-	char * next;
+	struct node * next;
 };
 typedef struct node node;
 struct list {
