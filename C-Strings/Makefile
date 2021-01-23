@@ -1,3 +1,5 @@
 all:
-	gcc list.c -o list
+	gcc -g list.c -o list
 	./list
+clean:
+	rm list

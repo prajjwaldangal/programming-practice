@@ -19,7 +19,6 @@ list * makeNewList() {
 }
 
 int add_to_list(list * ll, char * item) {
-	size_t itemLen = strlen(item);
 	node * newNode = NULL;
 	if (!ll) {
 		list * newList = makeNewList();
@@ -31,8 +30,7 @@ int add_to_list(list * ll, char * item) {
 			if (!newNode)
 				return -1;
 			else
-				ll->head = newNode;
-				
+				ll->head = newNode;				
 		}
 		return 0;
 	}
@@ -51,7 +49,9 @@ int add_to_list(list * ll, char * item) {
 }
 
 void print_list(list * ll) {
-	node * tmp = ll->head;
+	node * tmp = NULL;
+	if (ll)
+		tmp = ll->head;
 	while(tmp) {
 		printf("%c\n", tmp->c);
 		tmp = tmp->next;
@@ -59,7 +59,7 @@ void print_list(list * ll) {
 }
 
 int main() {
-	list * ll;
+	list * ll  = NULL;
 	char c = 'a';
 	add_to_list(ll, &c);
 	print_list(ll); 	
