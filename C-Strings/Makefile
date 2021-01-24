@@ -1,5 +1,5 @@
 all:
-	gcc -g list.c -o list
-	./list
+	gcc -g list_test.c list.c -o list_test -Wall
+	./list_test
 clean:
-	rm list
+	rm list_test
