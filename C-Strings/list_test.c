@@ -24,13 +24,8 @@ int main() {
     printf("next, flushing list ...\n");
 	int flushCount = flush_list(ll);
     printf("flushed: %d elements from the list\n", flushCount);
-	printf("next, adding 'apple' to the list once more to demonstrate list freeing");
-    add_to_list(ll, &c);
-	// add_to_list(ll, &c2);
-	// add_to_list(ll, &c3);
-	// add_to_list(ll, &c4);
-	// add_to_list(ll, &c5);
-    flush_list(ll);
-    // free_list(ll);
+	printf("new list is:\n");
 	print_list(ll);
+	printf("next, adding 'apple' to the list once more to demonstrate list freeing\n");
+    
 }

@@ -40,12 +40,16 @@ int add_to_list(list * ll, char * item) {
 	return 0;
 }
 
+// 0x7fffffffde70 "\001"
+// 0x555555555100 
+// 0x00007ffff7e0618b in ?? ()
+
 /* Removes the string from the front of the list and* returns a pointer 
 to it. The caller is expected to free* the string returned when finished 
 with it. Returns NULL * if the list is empty. */
 char * remove_from_list(list * ll) {
 	char * ret;
-	if (ll == NULL || ll->head == NULL)
+	if (ll == NULL)
 		return NULL;
 	node * temp = ll->head;
 	ll->head = ll->head->next;
@@ -70,7 +74,7 @@ void print_list(list * ll) {
 passed pointer ll should still point to a* valid, empty list when this 
 function returns. Any memory* allocated to store items in the list 
 should be freed. * Returns the number of items flushed from the list. */
-int flush_list(list* ll) {
+int flush_list(list * ll) {
 	if (!ll || !ll->head) 
 		return 0;
 	node * next;
@@ -78,7 +82,7 @@ int flush_list(list* ll) {
 	int count = 0;
 	while (curr) {
 		next = curr->next;
-		free(curr);
+		curr = NULL;
 		curr = next;
 		count += 1;	
 	}
@@ -87,10 +91,6 @@ int flush_list(list* ll) {
 }
 /* De-allocates all data for the list. Ensure all memory* allocated for this 
 list is freed, including any* allocated strings and the list itself. */
-// void free_list(list *ll) {
-// 	int ret = flush_list(ll);
-// 	if (ret != 0 && ll != NULL) {
-// 		ll = NULL;
-// 	}
-// 	ll = NULL;
-// }
+void free_list(list *ll) {
+
+}
