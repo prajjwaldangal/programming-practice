@@ -1,5 +1,5 @@
 struct node {
-	char c;
+	char c; 
 	struct node * next;
 };
 typedef struct node node;

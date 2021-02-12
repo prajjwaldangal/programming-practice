@@ -12,10 +12,11 @@ list * create_list() {
 node * makeNewNode(char * item) {
 	node * newNode = (node *) malloc(sizeof(node));
 	strncpy(&newNode->c, item, 1);
+	newNode->next = NULL;
 	return newNode;	
 }
 
-/* Adds item to end of the list. This function allocates a* new buffer 
+/* Adds item to end of the list. This function allocates a new buffer 
 and copies the string from item (use malloc,* strlen, and strncpy; or 
 try strdup).* Returns 0 if successful, non-zero otherwise. */
 int add_to_list(list * ll, char * item) {
@@ -39,10 +40,6 @@ int add_to_list(list * ll, char * item) {
 	}
 	return 0;
 }
-
-// 0x7fffffffde70 "\001"
-// 0x555555555100 
-// 0x00007ffff7e0618b in ?? ()
 
 /* Removes the string from the front of the list and* returns a pointer 
 to it. The caller is expected to free* the string returned when finished 
@@ -70,25 +67,22 @@ void print_list(list * ll) {
 	}
 }
 
-/* Flushes (clears) the entire list and re-initializes the* list. The 
-passed pointer ll should still point to a* valid, empty list when this 
-function returns. Any memory* allocated to store items in the list 
-should be freed. * Returns the number of items flushed from the list. */
-int flush_list(list * ll) {
-	if (!ll || !ll->head) 
-		return 0;
-	node * next;
-	node * curr = ll->head;
+// helper for flush_list
+int _flush_list(list ** ll) {
 	int count = 0;
-	while (curr) {
-		next = curr->next;
-		curr = NULL;
-		curr = next;
-		count += 1;	
-	}
-	ll = create_list();
 	return count;
 }
+
+/* Flushes (clears) the entire list and re-initializes the list. The 
+passed pointer ll should still point to a valid, empty list when this 
+function returns. Any memory* allocated to store items in the list 
+should be freed. Returns the number of items flushed from the list. */
+int flush_list(list *ll) {
+	int count = 0;
+	return count;
+}
+
+
 /* De-allocates all data for the list. Ensure all memory* allocated for this 
 list is freed, including any* allocated strings and the list itself. */
 void free_list(list *ll) {
