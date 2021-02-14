@@ -1,5 +1,7 @@
 struct list {
-    char * string = (char *) malloc(sizeof(char)*64); 
+    char * string;
+    int size;
+    int currIndx;
 };
 
 typedef struct list list;
@@ -7,9 +9,9 @@ typedef struct list list;
 /* Allocates and initializes a new list. */
 list* create_list();
 
-/* Adds item to end of the list. This function allocates a* new buffer 
+/* Adds item to end of the list. This function allocates a new buffer 
 and copies the string from item (use malloc,* strlen, and strncpy; or 
-try strdup).* Returns 0 if successful, non-zero otherwise. */
+try strdup). Returns 0 if successful, non-zero otherwise. */
 int add_to_list(list* ll, char* item);
 
 /* Removes the string from the front of the list and* returns a pointer 
