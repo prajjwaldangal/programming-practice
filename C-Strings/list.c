@@ -43,10 +43,10 @@ int add_to_list(list * ll, char * item) {
 
 /* Removes the string from the front of the list and* returns a pointer 
 to it. The caller is expected to free* the string returned when finished 
-with it. Returns NULL * if the list is empty. */
+with it. Returns NULL if the list is empty. */
 char * remove_from_list(list * ll) {
-	char * ret;
-	if (ll == NULL)
+	char * ret = (char *) malloc(sizeof(char));
+	if (ll == NULL || ll->head == NULL)
 		return NULL;
 	node * temp = ll->head;
 	ll->head = ll->head->next;
@@ -75,13 +75,12 @@ int _flush_list(list ** ll) {
 
 /* Flushes (clears) the entire list and re-initializes the list. The 
 passed pointer ll should still point to a valid, empty list when this 
-function returns. Any memory* allocated to store items in the list 
+function returns. Any memory allocated to store items in the list 
 should be freed. Returns the number of items flushed from the list. */
 int flush_list(list *ll) {
 	int count = 0;
 	return count;
 }
-
 
 /* De-allocates all data for the list. Ensure all memory* allocated for this 
 list is freed, including any* allocated strings and the list itself. */
