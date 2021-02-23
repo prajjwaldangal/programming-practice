@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         lvItems.setAdapter(itemsAdapter);
         items.add("First Item");
         items.add("Second Item");
+        setupListViewListener();
     }
 
     public void onAddItem(View v) {
@@ -34,4 +36,18 @@ public class MainActivity extends AppCompatActivity {
         itemsAdapter.add(itemText);
         etNewItem.setText("");
     }
+
+    private void setupListViewListener() {
+        lvItems.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapter,
+                                            View view, int pos, long id) {
+                        items.remove(pos);
+                        itemsAdapter.notifyDataSetChanged();
+                    }
+                }
+        );
+    }
+
 }
