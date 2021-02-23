@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         items.add("First Item");
         items.add("Second Item");
     }
-
     public void onAddItem(View v) {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
