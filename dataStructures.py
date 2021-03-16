@@ -1,10 +1,20 @@
 import math
 from collections import deque
 
-def binarySearch(arr):
-    start = 0
-    mid = len(arr)
+# A queue data structure is useful for First In First Out (FIFO) behavior. It is 
+# essentially a list with a FIFO order. It consists of 
+# methods:
+#       enqueue which puts items into the rear of the queue,
+#       dequeue which removes items from the front of the queue
+#       makeEmpty which clears the queue, resulting in an empty queue
+#       isFull which returns True if there are as many items in the queue
+#               as its capacity, otherwise it returns False
+#       isEmpty which retuns True if there is no item in the queue
+#               otherwise it returns False
 
+# A variation of queue is the priority queue data structure. In a priority queue
+# items that have higher priorities are released from the queue before items with
+# lower priorities.
 class Queue(object):
     def __init__(self, capacity):
         self.capacity = capacity
@@ -53,6 +63,9 @@ def runQueue():
     print(q.dequeue())
     q.printQueue()
 
+"""
+A stack data structure mimics Last In First Out (LIFO) behavior.
+"""
 class Stack(object):
 
     def __init__(self, capacity):
