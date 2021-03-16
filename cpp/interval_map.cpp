@@ -21,15 +21,10 @@ public:
 		
 		// use binary search to find keyBegin O(logN)
 		auto start = m_map.lower_bound(keyBegin);
-		K myKey;
-		// iterate from the found index to keyEnd, looking to match with val
-		for (; start->first < keyEnd; ++(start)) {
-			if (start->second == val) {
-				myKey = start->first;
-			}
-		}
-		// update val, 
-		m_map[myKey] = val;
+		// check if keyBegin.num is actually the higher than the highest
+		if (start == m_map.end()) 
+			return;
+		// need to erase
 	}
 
 	// look-up of the value associated with key
