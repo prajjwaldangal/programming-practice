@@ -1,4 +1,6 @@
 #include <map>
+#include <ostream>
+#include <iostream>
 template<typename K, typename V>
 class interval_map {
 	friend void IntervalMapTest();
@@ -16,16 +18,26 @@ public:
 	// If !( keyBegin < keyEnd ), this designates an empty interval,
 	// and assign must do nothing.
 	void assign( K const& keyBegin, K const& keyEnd, V const& val ) {
-		if (keyBegin >= keyEnd)
-			return;
-		
-		// use binary search to find keyBegin O(logN)
-		auto start = m_map.lower_bound(keyBegin);
-		// check if keyBegin.num is actually the higher than the highest
-		if (start == m_map.end()) 
-			return;
-		// need to erase
+if (!(keyBegin < keyEnd))
+	return;
+
+// use binary search to find keyBegin O(logN)
+auto iter = m_map.lower_bound(keyBegin);
+
+m_map.insert(std::pair<K, V> (iter->first, val));
+// next need to remove the succeeding elements upto and not including
+// keyEnd. 
+while (iter != m_map.end()) 
+{
+	if (iter->first < keyEnd) 
+	{
+		iter = m_map.erase(iter);
+	} else 
+	{
+		++iter;
 	}
+}
+		}
 
 	// look-up of the value associated with key
 	V const& operator[]( K const& key ) const {
@@ -34,6 +46,12 @@ public:
 			return m_valBegin;
 		} else {
 			return (--it)->second;
+		}
+	}
+
+	void printMap() {
+		for (auto it = m_map.begin(); it != m_map.end(); ++it) {
+			std::cout << "key: " << it->first << " " << "val: " << it->second << std::endl;
 		}
 	}
 };
@@ -100,6 +118,8 @@ int main() {
 
 	};
 
-	interval_map<myKeyClass, myValueClass> my_interval_map((char)'A');
+	interval_map<int, char> my_interval_map((char)'A');
+	my_interval_map.assign(1, 3, 'B');
+	my_interval_map.printMap();
 	return 0;
 }
