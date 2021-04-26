@@ -63,7 +63,7 @@ void _insertNodeHelper(itemType item, TreeNode * tree) {
 }
 
 void BST::insertNode(itemType item) {
-	_insertNodeHelper(item, root);
+	_insertNodeHelper(item, &root);
 }
 
 void _printTree(TreeNode * node, int level) {

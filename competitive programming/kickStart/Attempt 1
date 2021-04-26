@@ -1,0 +1,14 @@
+T = int(input())
+for i in range(T):
+    N, B = [int(el) for el in input().split()]
+    nums = [int(el) for el in input().split()]
+    nums = sorted(nums)
+    
+    res = 0
+    
+    while True:
+        B -= nums[res]
+        if B < 0:
+            break
+        res += 1    
+    print(f"Case #{i}: {res}")

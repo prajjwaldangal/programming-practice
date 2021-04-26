@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include <math.h>
 using namespace std;
 
 template <class T>
@@ -29,7 +30,7 @@ public:
 	void assign( K const& keyBegin, K const& keyEnd, V const& val ); 
 };
 
-
+/*
 int main () {
   int i = 5, j=6, k;
   long l=10, m=5, n;
@@ -48,4 +49,11 @@ int main () {
   List["vijfde"] = 5;
   cout << List.lower_bound()<< " " << List.end() << endl;
   return 0;
+}
+*/
+
+int main() {
+	int n = 243;
+	double res = log10(n) / log10(3);
+	printf("%f %d\n", res, (int) res);
 }

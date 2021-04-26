@@ -1,0 +1,16 @@
+     1                                  ;SECTION .data		; data section
+     2                                  ;msg:	db "Hello World",10	; the string to print, 10=cr
+     3                                  ;len:	equ $-msg		; "$" means "here"
+     4                                  				; len is a value, not an address
+     5                                  
+     6                                  ;	SECTION .text		; code section
+     7                                          global main		; make label available to linker 
+     8                                  main:				; standard  gcc  entry point
+     9 00000000 55                      	push rbp                                  
+    10 00000001 4889E5                  	mov rbp, rsp                            
+    11 00000004 8945FC                  	mov [rbp-4], eax                    
+    12 00000007 8B45FC                  	mov eax, [rbp-4]
+    13 0000000A 0FAFC0                  	imul eax, eax
+    14                                  	;int 21h
+    15                                  	;pop rbp
+    16 0000000D C3                      	ret      
