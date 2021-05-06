@@ -45,6 +45,7 @@ freq_voc = []
 for item in input_1:
     freq_voc.append(item.split('\n')[0])
 
+
 label_dic = {}
 baseline = {}
 input_ = inputfile.readlines()
@@ -256,7 +257,6 @@ def train_with_sgd(model, X_train, y_train, learning_rate, nepoch, evaluate_loss
 
 model = RNNNumpy(vector_size,hidden_dim)
 train_with_sgd(model, X_train, y_train, learning_rate, nepoch, evaluate_loss_after)
-
 
 
 def predict_label(model, X_test,y_test):
