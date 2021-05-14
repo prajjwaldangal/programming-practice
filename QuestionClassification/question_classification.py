@@ -7,17 +7,20 @@ import sys
 import re
 import os
 import time
+import gensim
 from datetime import datetime
 from utils import *
 import pickle
 from gensim.models import word2vec
 import logging
 
-
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 # Reading the input Google word2vec model
 #model_vec = word2vec.Word2Vec.load_word2vec_format('/Users/ScrmBison/Desktop/GoogleNews-vectors-negative300.bin', binary=True)
-model_vec = word2vec.Word2Vec.load_word2vec_format('/Users/PrajjwalDangal/BoxSync/Fall2016/ESCALES/GoogleNews-vectors-negative300.bin', binary=True)
+model_vec = gensim.models.KeyedVectors.load_word2vec_format(
+    "/Users/prajjwaldangal/Downloads/GoogleNews-vectors-negative300.bin",
+    binary=True
+)
 _VECTOR_SIZE = int(os.environ.get('VECTOR_SIZE', '300'))
 _HIDDEN_DIM = int(os.environ.get('HIDDEN_DIM', '500'))
 _LEARNING_RATE = float(os.environ.get('LEARNING_RATE', '0.0025'))
@@ -55,7 +58,7 @@ for item in input_:
     # For extracting the label of each sentence
     tag_ = re.findall(r'\w+:',item)
     tag = tag_[0].split(':')[0]
-    
+
     # calculate the class with the highest number of correct prediction
     # baseline = {'ENT': 55, 'DESC': 20, 'NUMERIC': 19 ....}
     if baseline.get(tag, False):
@@ -65,7 +68,7 @@ for item in input_:
 
     if tag not in label_dic:
         # If the label is not in my dictionary I will add it to the dictionary
-        # label_dic changes labels into numerical values 
+        # label_dic changes labels into numerical values
         label_dic[tag] = i
         i = i + 1
     # Changing the label into numbers and put them inside y
@@ -113,7 +116,7 @@ y_test = y[5000:]
 
 
 class RNNNumpy:
-     
+
     def __init__(self, vector_dim , hidden_dim, label_dim = 6 , bptt_truncate = 6):
         # Assign instance variables
         self.label_dim = label_dim
@@ -150,7 +153,7 @@ def predict(self, x):
     # Perform forward propagation and return index of the highest score
     o, s = self.forward_propagation(x)
     return np.argmax(o, axis=0)
- 
+
 RNNNumpy.predict = predict
 
 
@@ -164,13 +167,13 @@ def calculate_total_loss(self, x, y):
         # Add to the loss based on how off we were
         L += -1.0 * (np.log(correct_word_predictions))
     return L
- 
+
 def calculate_loss(self, x, y):
     # Divide the total loss by the number of training examples
     # y -> all y_train[i]
     N = len(y)
     return self.calculate_total_loss(x,y)/N
- 
+
 RNNNumpy.calculate_total_loss = calculate_total_loss
 RNNNumpy.calculate_loss = calculate_loss
 
@@ -191,16 +194,16 @@ def bptt(self, x, y):
     # Backpropagation through time (for at most self.bptt_truncate steps)
     for bptt_step in np.arange(max(0, (T-1)-self.bptt_truncate), (T-1)+1)[::-1]:
         #print "Backpropagation step t=%d bptt step=%d " % (t, bptt_step)
-        dLdW += np.outer(delta_t, s[bptt_step-1])     
+        dLdW += np.outer(delta_t, s[bptt_step-1])
         try:
             X_j = model_vec[index_to_word[x[bptt_step]]]
         except KeyError:
             X_j = model_vec['unknown']
-        dLdU += np.outer(delta_t, X_j)   
+        dLdU += np.outer(delta_t, X_j)
         # Update delta for next step
         delta_t = self.W.T.dot(delta_t) * (1 - s[bptt_step-1] ** 2)
     return [dLdU, dLdV, dLdW]
- 
+
 RNNNumpy.bptt = bptt
 
 
@@ -212,7 +215,7 @@ def numpy_sgd_step(self, x, y, learning_rate):
     self.U -= learning_rate * dLdU
     self.V -= learning_rate * dLdV
     self.W -= learning_rate * dLdW
- 
+
 RNNNumpy.sgd_step = numpy_sgd_step
 
 
@@ -239,11 +242,11 @@ def train_with_sgd(model, X_train, y_train, learning_rate, nepoch, evaluate_loss
             print ("%s: Loss after num_examples_seen=%d epoch=%d: %f" % (time, num_examples_seen, epoch, loss))
             # Adjust the learning rate if loss increases
             if (len(losses) > 1 and losses[-1][1] > losses[-2][1]):
-                learning_rate = learning_rate * 0.5  
+                learning_rate = learning_rate * 0.5
                 print ("Setting learning rate to %f" % learning_rate)
             sys.stdout.flush()
         # For each training example...
-        
+
         for i in range(len(y_train)):
             # One SGD step
             model.sgd_step(X_train[i], y_train[i], learning_rate)
@@ -254,7 +257,6 @@ def train_with_sgd(model, X_train, y_train, learning_rate, nepoch, evaluate_loss
 
 model = RNNNumpy(vector_size,hidden_dim)
 train_with_sgd(model, X_train, y_train, learning_rate, nepoch, evaluate_loss_after)
-
 
 
 def predict_label(model, X_test,y_test):
@@ -276,4 +278,5 @@ print ("accuracy = %f" % predict_label(model, X_test,y_test), "Test Data")
 print ("accuracy = %f" % predict_label(model, X_train,y_train), "Train Data")
 # tokenized_sentences
 
-print ('nepoch = ',nepoch ,'vocabulary_size = ' ,vocabulary_size ,'hidden_dim = ' ,hidden_dim ,'learning_rate = ',learning_rate)
+print ('nepoch = ',nepoch ,'vocabulary_size = ' ,vocabulary_size ,
+'hidden_dim = ' ,hidden_dim ,'learning_rate = ',learning_rate)
