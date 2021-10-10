@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MySecondApp</string>
+        <string-array name="priorityType1">
+            <item>Urgent, important</item>
+            <item>Not urgent, important</item>
+            <item>Urgent, not important</item>
+            <item>Not urgent, not important</item>
+        </string-array>
 </resources>

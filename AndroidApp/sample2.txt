@@ -1,0 +1,5 @@
+This is a sample file.
+Let's see what.
+
+# for delta calculation check: https://en.wikipedia.org/wiki/Delta_rule
+
