@@ -29,12 +29,17 @@
     //      at line 8
     mapboxgl.accessToken = 'pk.eyJ1IjoicGRhbmdhbCIsImEiOiJja3RtMDkzejUyMHgyMnhwOGltbmJ2dGI1In0.SDzAt6moKJnqJx_w94KuLw';
 
-    // the Map object has several attributes, most notably, 
+    // the Map object has several attributes, most notably, the map's position (zoom, center latitude, center longitude, bearing, and pitch)
+    //    user interaction handlers, 
+    //    panBy is often used with a high pitch level to render first person view on a map
+    //    user interaction and frameworks
     const map = new mapboxgl.Map({
+        // maxBounds: [[-73.9876, 40.7661], [-73.9397, 40.8002]], 
         container: 'map',
         style: 'mapbox://styles/mapbox/navigation-day-v1',
         zoom: 3,
-        center: [-98, 38.88]
+        center: [-98, 38.88],
+        pitch: 80
     });
 
     // Create a popup, but don't add it to the map yet.

@@ -1,0 +1,3 @@
+"DateIssue","DateForecast","ReportingArea","StateCode","Latitude","Longitude","ParameterName","AQI","CategoryNumber","CategoryName","ActionDay","Discussion"
+"2021-10-19 ","2021-10-20 ","Colorado Springs","CO","38.7789","-104.792","O3","-1","1","Good","false",""
+"2021-10-19 ","2021-10-20 ","Colorado Springs","CO","38.7789","-104.792","PM2.5","-1","1","Good","false",""
