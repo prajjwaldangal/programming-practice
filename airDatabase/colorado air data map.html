@@ -1,0 +1,168 @@
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Colorado air quality map</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
+		<link
+		href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css"
+		rel="stylesheet"
+		/>
+		<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		#map {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			width: 100%;
+		}
+
+		.airdata {
+			position: absolute;
+			font-family: sans-serif;
+			margin-top: 5px;
+			margin-left: 5px;
+			padding: 5px;
+			width: 30%;
+			border: 2px solid black;
+			font-size: 14px;
+			color: #222;
+			background-color: #fff;
+			border-radius: 3px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="map"></div>
+	<div class="airdata">
+		<div><strong>AQI:</strong>&nbsp;<span id="AQI"></span></div>
+		<div><strong>Location:</strong>&nbsp;<span id="loc"></span></div>
+		<div><strong>Pollutant:</strong>&nbsp;<span id="Pollutant"></span></div>
+	</div>
+
+	<script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoicGRhbmdhbCIsImEiOiJja3RtMDkzejUyMHgyMnhwOGltbmJ2dGI1In0.SDzAt6moKJnqJx_w94KuLw';
+		const map = new mapboxgl.Map({
+			container: 'map', // Specify the container ID
+			style: 'mapbox://styles/mapbox/streets-v11', // Specify which map style to use
+			center: [-105.7821, 39.5501], // Specify the starting position [lng, lat]
+			zoom: 5.5 // Specify the starting zoom
+		});
+
+		// Create a popup
+    	const popup = new mapboxgl.Popup({
+        	closeButton: false
+    	});
+
+		// Target the span elements used in the sidebar
+		const aqiDisplay = document.getElementById('AQI');
+		const locDisplay = document.getElementById('loc');
+		const pollutantDisplay = document.getElementById('Pollutant');
+
+
+		map.on('load', () => {
+			// When the map loads, add the data from the air quality API
+			map.addSource('airquality', {
+				'type': 'geojson',
+				'generateId': true, // This ensures that all features have unique IDs
+				'url': 'mapbox://pdangal.bua34hc6'
+			});
+
+			// Add airquality as a layer and style it
+			map.addLayer({
+				'id': 'airquality-viz',
+				'type': 'circle',
+				'source': 'airquality',
+				'paint': {
+			// The feature-state dependent circle-radius expression will render
+			// the radius size according to its magnitude when
+			// a feature's hover state is set to true
+			'circle-radius': 10,
+			'circle-stroke-color': '#bfc9ca',
+			'circle-stroke-width': 3,
+			// The feature-state dependent circle-color expression will render
+			// the color according to its magnitude when
+			// a feature's hover state is set to true
+			"circle-color": [
+				"case",
+				[">", ["get", "AQI"], "0"], "#32cd32",
+				[">", ["get", "AQI"], "51.00"], "#ffff00",
+				[">", ["get", "AQI"], "101.00"], "#ffa500",
+				[">", ["get", "AQI"], "151.00"], "#ff0000",
+				"#ccc"]
+				}
+			});
+
+			let airDataID = null;
+
+			map.on('mousemove', 'airquality-viz', (event) => {
+				map.getCanvas().style.cursor = 'pointer';
+			// Set variables equal to the current feature's AQI, location, and pollutant
+			const airAQI = event.features[0].properties.AQI;
+			const aieLocation = event.features[0].properties.Location;
+			const airPollutant = event.features[0].properties.Pollutant;
+
+			if (event.features.length === 0) return;
+			// Display the AQI, location, and time in the sidebar
+			aqiDisplay.textContent = airAQI;
+			locDisplay.textContent = aieLocation;
+			pollutantDisplay.textContent = airPollutant;
+
+			// When the mouse moves over the airquality-viz layer, update the
+			// feature state for the feature under the mouse
+			if (airDataID) {
+				map.removeFeatureState({
+					source: 'airquality',
+					id: airDataID
+				});
+			}
+
+			airDataID = event.features[0].id;
+
+			map.setFeatureState({
+				source: 'airquality',
+				airDataID}, 
+				{ hover: true }
+			);
+
+				const tejasthedon = "{AQI: " + event.features[0].properties.AQI + "}    {Location: " 
+				+ event.features[0].properties.Location + "}"
+
+				popup.setLngLat(event.lngLat)
+				.setText(tejasthedon)
+				.addTo(map);
+			});
+
+			// When the mouse leaves the airquality-viz layer, update the
+			// feature state of the previously hovered feature
+			map.on('mouseleave', 'airquality-viz', () => {
+				if (airDataID) {
+					map.setFeatureState(
+					{
+						source: 'airquality',
+						id: airDataID
+					},
+					{
+						hover: false
+					}
+					);
+				}
+				popup.remove();
+				airDataID = null;
+			// Remove the information from the previously hovered feature from the sidebar
+			aqiDisplay.textContent = '';
+			locDisplay.textContent = '';
+			pollutantDisplay.textContent = '';
+			// Reset the cursor style
+			map.getCanvas().style.cursor = '';
+			});
+		});
+</script>
+</body>
+</html>
