@@ -29,14 +29,48 @@ class QuickSort:
         self._sort(0, len(self.arr), self.arr)
 
 class MergeSort:
-    def __init__(self, arr):
+    def __init__(self, arr=None):
         self.arr = arr
         self.l = len(arr)
+        self.ret_array = None
 
-    def merge(self):
-        pass
+    def merge(self, low, middle, high):
+        i = low
+        j = middle
+        r = low
+        while (i < middle and j < high):
+            if self.arr[i] <= self.arr[j]:
+                self.ret_arr[r] = self.arr[i]
+                i += 1
+            else:
+                self.ret_arr[r] = self.arr[j]
+                j += 1
+            r += 1
+        while (i < middle):
+            self.ret_arr[r] = self.arr[i]
+            r += 1
+        while (j < high):
+            self.ret_arr[r] = self.arr[j]
+            j += 1
+
+    def _sort(self, low, high):
+        # print("low: {}, high:{}".format(low, high))
+        if low < high: 
+            middle = low + (high - low) // 2
+            print("middle: ", middle)
+            self._sort(low, middle)
+            self._sort(middle, high)
+            self.merge(low, middle, high)
 
     def sort(self):
+        self.ret_array = self.arr.copy()
+        self._sort(0, self.l)
+
+    def print_it(self):
+        print(self.arr)
+
+class HeapSort:
+    def __init__(self):
         pass
 
 
