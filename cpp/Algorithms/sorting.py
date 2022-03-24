@@ -78,8 +78,6 @@ class HeapSort:
         pass
 
 
-
-
 class QuickSort:
     def __init__(self, arr=None):
         self.arr = arr
@@ -159,4 +157,7 @@ class MergeSort:
 
 class HeapSort:
     def __init__(self):
+        self.heap = []
         pass
+
+    
