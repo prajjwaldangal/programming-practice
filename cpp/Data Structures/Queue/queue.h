@@ -1,11 +1,17 @@
 #include <string>
 template <typename ItemType>
-class Packet {
+struct Packet {
     std::string source_addr;
     std::string dest_addr;
     int timeout;
     ItemType payload;
 };
+
+class FullQueue 
+{};
+
+class EmptyQueue
+{};
 
 template <typename ItemType>
 class Queue {
@@ -17,6 +23,7 @@ class Queue {
         bool IsFull() const;
         void Enqueue(Packet <ItemType> newPacket);
         void Dequeue(Packet <ItemType> & removedPacket);
+        void PrintQueue();
     private:
         int front;
         int rear;
