@@ -1,143 +1,74 @@
 import java.util.*;
 
 public class Solution {
-
-    public static void main(String[] args) {
-        // Scanner reader = new Scanner(System.in);
-        // System.out.println("Input: ");
-        // int T = reader.nextInt();
-        // int C, M, Y, K;
-        // ArrayList <ArrayList<ArrayList<Integer>>> all = new ArrayList <ArrayList<ArrayList<Integer>>>(T);
-        // int t =0;
-        // while (t < T) {
-        //     ArrayList <ArrayList<Integer>> testCase = new ArrayList <ArrayList<Integer>>();
-        //     for (int i = 0; i < 3; i++) {
-        //         ArrayList <Integer> printer = new ArrayList <Integer> ();
-        //         C = reader.nextInt();
-        //         M = reader.nextInt();
-        //         Y = reader.nextInt();
-        //         K = reader.nextInt();
-        //         printer.add(C);
-        //         printer.add(M);
-        //         printer.add(Y);
-        //         printer.add(K);
-        //         testCase.add(printer);
-        //     }
-        //     all.add(testCase);
-        //     t += 1;
-        // }
-        // reader.close();
-        int[][][] all = {
-            {
-                {300000, 200000, 300000, 500000},
-                {300000, 200000, 500000, 300000}, 
-                {300000, 500000, 300000, 200000}
-            }, {
-                {1000000, 1000000, 0, 0},
-                {0, 1000000, 1000000, 1000000},
-                {99999, 99999, 99999, 99999}
-            }, {
-                {768763, 148041, 178147, 984173},
-                {699508, 515362, 534729, 714381},
-                {949704, 625054, 946212, 951187}
+    public static class VisitedNode {
+        boolean visited;
+        int currMax;
+    }
+    public static List <Integer> findInitiatorIndices(List <Integer> P, int N) {
+        List <Integer> myIndices = new ArrayList <Integer> (N);
+        List <Integer> seen = new ArrayList <Integer> (N);
+        for (int i = 0; i < N; i++) {
+            seen.add(P.get(i));
+        }
+        for (int i = 1; i <= N; i++) {
+            if (!seen.contains(i)) {
+                myIndices.add(i-1);
             }
-        };
-        int start, end;
-        // int T = 3;
-        for (t = 0; t < T; t++) {
-            System.out.printf("Case #%d:", t+1);
-            // get mins for each color type
-            ArrayList <ArrayList<Integer>> testCase = all.get(t);
-            List <Integer> temp = Arrays.asList(testCase.get(0).get(0), 
-                                            testCase.get(1).get(0), 
-                                            testCase.get(2).get(0));
-            int min_C = Collections.min(temp);
-            temp = Arrays.asList(testCase.get(0).get(1), 
-                                testCase.get(1).get(1), 
-                                testCase.get(2).get(1));
-            int min_M = Collections.min(temp);
-            temp = Arrays.asList(testCase.get(0).get(2), 
-                                testCase.get(1).get(2), 
-                                testCase.get(2).get(2));
-            int min_Y = Collections.min(temp);
-            temp = Arrays.asList(testCase.get(0).get(3), 
-                                testCase.get(1).get(3), 
-                                testCase.get(2).get(3));
-            int min_K = Collections.min(temp);
-            // System.out.printf("%d, %d, %d, %d\n", min_C, min_M, min_Y, min_K);
-            // run loops for each combination thereafter for the reduced space
-            int max_C = min_C;
-            int max_M = min_M;
-            int max_Y = min_Y;
-            int max_K = min_K;
-            int NEEDED = (int) Math.pow(10, 6);
-            List <Integer> sol = new ArrayList<Integer>();
-            // System.out.printf("Size of sol: %d\n", sol.size());
-            for (int c = 0; c < max_C; c++) {
-                if (c == NEEDED) {
-                    sol.add(c);
-                    sol.add(0);
-                    sol.add(0);
-                    sol.add(0);
-                    break;
-                }
-                for (int m = 0; m < max_M; m++) {
-                    if (c + m == NEEDED) {
-                        sol.add(c);
-                        sol.add(m);
-                        sol.add(0);
-                        sol.add(0);
-                        break;
+        }
+        return myIndices;
+    }
+    public static void main(String[] args) {
+        Scanner reader = new Scanner(System.in);
+        int T = reader.nextInt();
+        int t = 0;
+        
+        for (;t < T; t++) {
+            int N = reader.nextInt();
+            List <Integer> F = new ArrayList <Integer> (N);
+            List <Integer> P = new ArrayList <Integer> (N);
+            for (int i = 0; i < N; i++) {
+                F.add(reader.nextInt());
+            }
+            for (int i = 0; i < N; i++) {
+                P.add(reader.nextInt());
+            }
+            List <Integer> initiatorIndices = findInitiatorIndices(P, N);
+            int currIndex = 0;
+            int maxFun = 0;
+            List <VisitedNode> visited = new ArrayList<VisitedNode>();
+            for (int i = 0; i < N; i++) {
+                VisitedNode newNode = new VisitedNode();
+                newNode.currMax = 0;
+                newNode.visited = false;
+                visited.add(newNode);
+            }
+            for (int i = 0; i < initiatorIndices.size(); i++) {
+                currIndex = initiatorIndices.get(i);
+                List <Integer> chain = new ArrayList <Integer> ();
+                while (currIndex != -1) {
+                    if (visited.get(currIndex).visited == true) {
+                        if (visited.get(currIndex).currMax < F.get(currIndex)) {
+                            chain.add(F.get(currIndex));
+                            VisitedNode newNode = new VisitedNode();
+                            newNode.currMax = F.get(currIndex);
+                            newNode.visited = true;
+                            visited.set(currIndex, newNode);
+                        }
+                    } else {
+                        chain.add(F.get(currIndex));
+                        VisitedNode newNode = new VisitedNode();
+                        newNode.currMax = F.get(currIndex);
+                        newNode.visited = true;
+                        visited.set(currIndex, newNode);
                     }
                     
-                    for (int y = 0; y < max_Y; y++) {
-                        if (c + m + y == NEEDED) {
-                            sol.add(c);
-                            sol.add(m);
-                            sol.add(y);
-                            sol.add(0);
-                            break;
-                        }
-                        start = 0;
-                        end = max_K;
-                        int k;
-                        while (start < end) {
-                            k = start + (end - start) / 2;
-                            if (c + m + y + k == NEEDED) {
-                                sol.add(c);
-                                sol.add(m);
-                                sol.add(y);
-                                sol.add(k);
-                                break;
-                            } else if (c + m + y + k < NEEDED) {
-                                start = k + 1;
-                            } else {
-                                end = k - 1;
-                            }
-                        }
-                        if (sol.size() == 4) 
-                            break;
-                    }
-                    if (sol.size() == 4) 
-                        break;
+                    currIndex = P.get(currIndex)-1;
                 }
-                if (sol.size() == 4) 
-                    break;
+                maxFun += Collections.max(chain);
             }
-            for (int i = 0; i < 4; i++) {
-                if (sol.size() != 4) {
-                    System.out.printf(" Impossible");
-                    break;
-                }
-                System.out.printf(" %d", sol.get(i));
-            }
-            System.out.printf("\n");
+            System.out.printf("Case #%d: %d\n", t+1, maxFun);
         }
+        reader.close();
     }
 }
-
-/**
- * 1000000 1000000 0       0
-   0       1000000 1000000 1000000
-   999999  999999  999999  999999
- */
